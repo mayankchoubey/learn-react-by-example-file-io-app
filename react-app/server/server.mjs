@@ -8,19 +8,13 @@ const storage = multer.memoryStorage();
 const app = express();
 const upload = multer({ storage });
 
-const port = 3000;
+const port = 3001;
 const algorithm = "aes-256-ctr";
 const uploadPath = process.cwd() + "/uploads";
 
 let key = "file-encryption-key";
 key = crypto.createHash("sha256").update(key).digest("base64").substr(0, 32);
 const iv = crypto.randomBytes(16);
-
-app.use(express.static("public"));
-
-app.get("/", (req, res) => {
-  res.redirect("upload.html");
-});
 
 app.put("/api/files", upload.single("uploadedFile"), async (req, res) => {
   const fileId = nanoid(6);
@@ -36,10 +30,6 @@ app.put("/api/files", upload.single("uploadedFile"), async (req, res) => {
     }),
   );
   res.json({ fileUrl: `http://localhost:3000/${fileId}` });
-});
-
-app.get("/:fileId", (req, res) => {
-  res.redirect(`download.html?fileId=${req.params.fileId}`);
 });
 
 app.get("/api/files/:fileId/meta", async (req, res) => {
