@@ -1,5 +1,15 @@
+import Header from "./Header";
+import Footer from "./Footer";
+import MainDownload from "./MainDownload";
+
 function Download(props) {
-  return <h1>Download: {props.fileId}</h1>;
+  return (
+    <div>
+      <Header />
+      <MainDownload fileId={props.fileId} />
+      <Footer />
+    </div>
+  );
 }
 
 export default Download;
